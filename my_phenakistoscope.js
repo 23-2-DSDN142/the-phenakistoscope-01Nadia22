@@ -1,61 +1,65 @@
-const SLICE_COUNT = 15;
-
 function setup_pScope(pScope){
-  pScope.output_mode(OUTPUT_GIF(1000));
+  pScope.output_mode(ANIMATED_DISK);
   pScope.scale_for_screen(true);
   pScope.draw_layer_boundaries(false);
   pScope.set_direction(CCW);
-  pScope.set_slice_count(SLICE_COUNT);
+  pScope.set_slice_count(9);
+  pScope.load_image_sequence("flower", "png", 14);
+  pScope.load_image_sequence("cloud", "png", 3);
+  pScope.load_image("moon","png")
 }
 
 function setup_layers(pScope){
+  new PLayer(null,60,70,90);
 
-  new PLayer(null, 255, 248, 232);  //lets us draw the whole circle background, ignoring the boundaries
+  let outerRing = new PLayer(outsideRing);
+  outerRing.mode(RING);
+  outerRing.set_boundary(930,1000);
 
-  var layer1 = new PLayer(faces);
-  layer1.mode( SWIRL(6) );
-  layer1.set_boundary( 100, 1050 );
+  let flowerSequence = new PLayer(flower);
+  flowerSequence.mode(RING);
+  flowerSequence.set_boundary(0,1000);
 
-  var layer2 = new PLayer(squares);
-  layer2.mode( RING );
-  layer2.set_boundary( 0, 400 );
+  let cloudSequence = new PLayer(cloud);
+  cloudSequence.mode(RING);
+  cloudSequence.set_boundary(0,1000);
+
+  let moonImage = new PLayer(moon);
+  moonImage.mode(RING);
+  moonImage.set_boundary(0,30);
+
+  let outerRing2 = new PLayer(outsideRing2);
+  outerRing2.mode(RING);
+  outerRing2.set_boundary(970,1000);
 }
 
-function faces(x, y, animation, pScope){
-  
-  scale(animation.frame*2);
-
-  var petalsize1 = 50;
-var petalsize2 = 9;
-var petal1y=70
-var petal1x=50
-var Flowercoresize = 30
-var flowercolorA = color(252, 223, 104,150);//yellow
-  var flowercolorB = color(193, 104, 252,150);//purple
-  var flowercolorC = color(252, 104, 143,120);//pink
-  var flowercolorD = color(255, 171, 82,15);//orange
-  var Flowercorecolor = color(252, 250, 235,150);
-fill(flowercolorA);//yellow flower
-  noStroke();
-  circle(petal1x, petal1y, petalsize1);//Petal
-  circle(petal1x+20, petal1y-20, petalsize1);//Peta2
-  circle(petal1x+42, petal1y-5, petalsize1);//Peta3
-  circle(petal1x+37, petal1y+21, petalsize1);//Peta4
-  circle(petal1x+10, petal1y+23, petalsize1);//Peta5
-  fill(Flowercorecolor);
-  circle(petal1x+22, petal1y+4, Flowercoresize);//cores
-
+function moon(x,y,animation,pScope){
+  scale(1.3);
+  pScope.draw_image("moon",x,y);
 }
 
-function squares(x, y, animation, pScope){
-
-  // this is how you set up a background for a specific layer
-  let angleOffset = (360 / SLICE_COUNT) / 2
-  let backgroundArcStart = 270 - angleOffset;
-  let backgroundArcEnd = 270 + angleOffset;
-
-  fill(193, 104, 252,150)
-  arc(x,y,400,400,backgroundArcStart,backgroundArcEnd); // draws "pizza slice" in the background
-
-
+function outsideRing (x,y,animation,pScope){
+ pScope.fill_background(255);
 }
+
+function flower(x,y,animation,pScope){
+  translate(x,y+650);
+  scale(1);
+  pScope.draw_image_from_sequence("flower", 0, 20, animation.frame);
+}
+
+function cloud(x,y,animation,pScope){
+  translate(x,y+860);
+  scale(1);
+  pScope.draw_image_from_sequence("cloud", 0, 10, animation.frame);
+  frameRate(6)
+}
+
+function outsideRing2 (x,y,animation,pScope){
+  pScope.fill_background(60,70,90);
+ }
+
+ function line (x,y,animation,pScope){
+  line(10,29,200,300)
+  pScope.fill_background(60,70,90);
+ }
