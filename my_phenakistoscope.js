@@ -73,10 +73,9 @@ function cloud(x,y,animation,pScope){
   translate(x,y+860);
   scale(1);
   pScope.draw_image_from_sequence("cloud", 0, 10, animation.frame);
-  frameRate(5)
+  
 }
 
 function outsideRing2 (x,y,animation,pScope){
   pScope.fill_background(60,70,90);
  }
-
