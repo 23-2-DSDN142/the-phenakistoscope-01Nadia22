@@ -6,31 +6,54 @@ function setup_pScope(pScope){
   pScope.set_slice_count(9);
   pScope.load_image_sequence("flower", "png", 14);
   pScope.load_image_sequence("cloud", "png", 3);
+  pScope.load_image_sequence("backline", "png", 9);
   pScope.load_image("moon","png")
+  pScope.load_image("back","png")
 }
 
 function setup_layers(pScope){
   new PLayer(null,60,70,90);
 
-  let outerRing = new PLayer(outsideRing);
+  var backlineSequence = new PLayer(backline);
+  backlineSequence.mode(SWIRL(1));
+  backlineSequence.set_boundary(0,100);
+
+  var backImage = new PLayer(back);
+  backImage.mode(SWIRL(0.001));
+  backImage.set_boundary(0,30);
+
+  var outerRing = new PLayer(outsideRing);
   outerRing.mode(RING);
   outerRing.set_boundary(930,1000);
 
-  let flowerSequence = new PLayer(flower);
-  flowerSequence.mode(RING);
-  flowerSequence.set_boundary(0,1000);
+  var flowerSequence = new PLayer(flower);
+  flowerSequence.mode(SWIRL(1));
+  flowerSequence.set_boundary(0,200);
 
-  let cloudSequence = new PLayer(cloud);
+  var cloudSequence = new PLayer(cloud);
   cloudSequence.mode(RING);
   cloudSequence.set_boundary(0,1000);
 
-  let moonImage = new PLayer(moon);
+  var moonImage = new PLayer(moon);
   moonImage.mode(RING);
   moonImage.set_boundary(0,30);
 
-  let outerRing2 = new PLayer(outsideRing2);
+  var outerRing2 = new PLayer(outsideRing2);
   outerRing2.mode(RING);
   outerRing2.set_boundary(970,1000);
+
+  var ring = new PLayer(ring);
+  ring.mode(RING);
+  ring.set_boundary(200,1000);
+
+  var circle = new PLayer(circle);
+  circle.mode(RING);
+  circle.set_boundary(200,1000);
+}
+function backline(x,y,animation,pScope){
+  translate(x,y-80);
+  scale(1);
+  pScope.draw_image_from_sequence("backline", 0, 20, animation.frame);
 }
 
 function moon(x,y,animation,pScope){
@@ -40,6 +63,16 @@ function moon(x,y,animation,pScope){
 
 function outsideRing (x,y,animation,pScope){
  pScope.fill_background(255);
+}
+
+function back(x,y,animation,pScope){
+  scale(0.35);
+  pScope.draw_image("back",x,y);
+}
+
+function back1(x,y,animation,pScope){
+  scale(1);
+  pScope.draw_image("back1",x,y);
 }
 
 function flower(x,y,animation,pScope){
@@ -52,14 +85,14 @@ function cloud(x,y,animation,pScope){
   translate(x,y+860);
   scale(1);
   pScope.draw_image_from_sequence("cloud", 0, 10, animation.frame);
-  frameRate(6)
+  frameRate(5)
 }
 
 function outsideRing2 (x,y,animation,pScope){
   pScope.fill_background(60,70,90);
  }
 
- function line (x,y,animation,pScope){
-  line(10,29,200,300)
-  pScope.fill_background(60,70,90);
+ function circle (x,y,animation,pScope){
+  circle(500, 300, 200);
+  
  }
