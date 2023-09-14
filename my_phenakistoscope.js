@@ -1,5 +1,5 @@
 function setup_pScope(pScope){
-  pScope.output_mode(ANIMATED_DISK);
+  pScope.output_mode(OUTPUT_GIF(1000));
   pScope.scale_for_screen(true);
   pScope.draw_layer_boundaries(false);
   pScope.set_direction(CCW);
@@ -42,13 +42,6 @@ function setup_layers(pScope){
   outerRing2.mode(RING);
   outerRing2.set_boundary(970,1000);
 
-  var ring = new PLayer(ring);
-  ring.mode(RING);
-  ring.set_boundary(200,1000);
-
-  var circle = new PLayer(circle);
-  circle.mode(RING);
-  circle.set_boundary(200,1000);
 }
 function backline(x,y,animation,pScope){
   translate(x,y-80);
@@ -70,11 +63,6 @@ function back(x,y,animation,pScope){
   pScope.draw_image("back",x,y);
 }
 
-function back1(x,y,animation,pScope){
-  scale(1);
-  pScope.draw_image("back1",x,y);
-}
-
 function flower(x,y,animation,pScope){
   translate(x,y+650);
   scale(1);
@@ -92,7 +80,3 @@ function outsideRing2 (x,y,animation,pScope){
   pScope.fill_background(60,70,90);
  }
 
- function circle (x,y,animation,pScope){
-  circle(500, 300, 200);
-  
- }
