@@ -1,49 +1,81 @@
-const SLICE_COUNT = 10;
-
 function setup_pScope(pScope){
-  pScope.output_mode(ANIMATED_DISK);
+  pScope.output_mode(OUTPUT_GIF(1000));
   pScope.scale_for_screen(true);
   pScope.draw_layer_boundaries(false);
   pScope.set_direction(CCW);
-  pScope.set_slice_count(SLICE_COUNT);
+  pScope.set_slice_count(9);
+  pScope.load_image_sequence("flower", "png", 14);
+  pScope.load_image_sequence("cloud", "png", 3);
+  pScope.load_image_sequence("backline", "png", 9);
+  pScope.load_image("moon","png")
+  pScope.load_image("back","png")
 }
 
 function setup_layers(pScope){
+  new PLayer(null,60,70,90);
 
-  new PLayer(null, 220);  //lets us draw the whole circle background, ignoring the boundaries
+  var backlineSequence = new PLayer(backline);
+  backlineSequence.mode(SWIRL(1));
+  backlineSequence.set_boundary(0,100);
 
-  var layer1 = new PLayer(faces);
-  layer1.mode( SWIRL(5) );
-  layer1.set_boundary( 200, 1000 );
+  var backImage = new PLayer(back);
+  backImage.mode(SWIRL(0.001));
+  backImage.set_boundary(0,30);
 
-  var layer2 = new PLayer(squares);
-  layer2.mode( RING );
-  layer2.set_boundary( 0, 400 );
+  var outerRing = new PLayer(outsideRing);
+  outerRing.mode(RING);
+  outerRing.set_boundary(930,1000);
+
+  var flowerSequence = new PLayer(flower);
+  flowerSequence.mode(SWIRL(1));
+  flowerSequence.set_boundary(0,200);
+
+  var cloudSequence = new PLayer(cloud);
+  cloudSequence.mode(RING);
+  cloudSequence.set_boundary(0,1000);
+
+  var moonImage = new PLayer(moon);
+  moonImage.mode(RING);
+  moonImage.set_boundary(0,30);
+
+  var outerRing2 = new PLayer(outsideRing2);
+  outerRing2.mode(RING);
+  outerRing2.set_boundary(970,1000);
+
+}
+function backline(x,y,animation,pScope){
+  translate(x,y-80);
+  scale(1);
+  pScope.draw_image_from_sequence("backline", 0, 20, animation.frame);
 }
 
-function faces(x, y, animation, pScope){
+function moon(x,y,animation,pScope){
+  scale(1.3);
+  pScope.draw_image("moon",x,y);
+}
+
+function outsideRing (x,y,animation,pScope){
+ pScope.fill_background(255);
+}
+
+function back(x,y,animation,pScope){
+  scale(0.35);
+  pScope.draw_image("back",x,y);
+}
+
+function flower(x,y,animation,pScope){
+  translate(x,y+650);
+  scale(1);
+  pScope.draw_image_from_sequence("flower", 0, 20, animation.frame);
+}
+
+function cloud(x,y,animation,pScope){
+  translate(x,y+860);
+  scale(1);
+  pScope.draw_image_from_sequence("cloud", 0, 10, animation.frame);
   
-  scale(animation.frame*2);
-
-  ellipse(0,0,50,50); // draw head
-  fill(30);
-  ellipse(-10,-10,10,10); //draw eye
-  ellipse(10,-10,10,10); // draw eye
-  arc(0,10,20,10,0,180); // draw mouth
-
 }
 
-function squares(x, y, animation, pScope){
-
-  // this is how you set up a background for a specific layer
-  let angleOffset = (360 / SLICE_COUNT) / 2
-  let backgroundArcStart = 270 - angleOffset;
-  let backgroundArcEnd = 270 + angleOffset;
-
-  fill(66, 135, 245)
-  arc(x,y,800,800,backgroundArcStart,backgroundArcEnd); // draws "pizza slice" in the background
-
-  fill(255)
-  rect(-10,-300-animation.wave()*50,20,20) // .wave is a cosine wave btw
-
-}
+function outsideRing2 (x,y,animation,pScope){
+  pScope.fill_background(60,70,90);
+ }
